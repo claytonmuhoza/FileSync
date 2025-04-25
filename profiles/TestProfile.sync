@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<profile>
+    <name>TestProfile</name>
+    <paths>
+        <pathA>sync.fs.local.LocalPath@497470ed</pathA>
+        <pathB>sync.fs.local.LocalPath@63c12fb0</pathB>
+    </paths>
+    <register>
+        <entry>
+            <path>file1.txt</path>
+            <lastModified>2025-04-25T20:16:53.666748492Z</lastModified>
+            <directory>false</directory>
+        </entry>
+        <entry>
+            <path>documents</path>
+            <lastModified>2025-04-25T20:16:53.666940168Z</lastModified>
+            <directory>true</directory>
+        </entry>
+        <entry>
+            <path>images/photo.jpg</path>
+            <lastModified>2025-04-25T20:16:53.666899846Z</lastModified>
+            <directory>false</directory>
+        </entry>
+    </register>
+</profile>
