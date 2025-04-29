@@ -14,7 +14,7 @@ public class RegisterStd implements Register {
 
     @Override
     public void put(Entry entry) {
-        entries.put(entry.getRelativePath(), entry);
+        entries.put(entry.getRelativePath().toString(), entry);
     }
 
     @Override

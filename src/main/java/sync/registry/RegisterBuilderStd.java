@@ -10,7 +10,7 @@ public class RegisterBuilderStd implements RegisterBuilder {
 
     @Override
     public RegisterBuilder addEntry(Entry entry) {
-        entries.put(entry.getRelativePath(), entry);
+        entries.put(entry.getRelativePath().toString(), entry);
         return this;
     }
 

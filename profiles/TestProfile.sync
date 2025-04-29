@@ -2,24 +2,24 @@
 <profile>
     <name>TestProfile</name>
     <paths>
-        <pathA>sync.fs.local.LocalPath@497470ed</pathA>
-        <pathB>sync.fs.local.LocalPath@63c12fb0</pathB>
+        <pathA>sync.fs.local.LocalPath@1b9e1916</pathA>
+        <pathB>sync.fs.local.LocalPath@ba8a1dc</pathB>
     </paths>
     <register>
         <entry>
-            <path>file1.txt</path>
-            <lastModified>2025-04-25T20:16:53.666748492Z</lastModified>
+            <path>photos/image.jpg</path>
+            <lastModified>2025-04-27T11:00:00Z</lastModified>
             <directory>false</directory>
         </entry>
         <entry>
-            <path>documents</path>
-            <lastModified>2025-04-25T20:16:53.666940168Z</lastModified>
+            <path>documents/readme.txt</path>
+            <lastModified>2025-04-28T12:00:00Z</lastModified>
+            <directory>false</directory>
+        </entry>
+        <entry>
+            <path>photos</path>
+            <lastModified>2025-04-27T10:00:00Z</lastModified>
             <directory>true</directory>
-        </entry>
-        <entry>
-            <path>images/photo.jpg</path>
-            <lastModified>2025-04-25T20:16:53.666899846Z</lastModified>
-            <directory>false</directory>
         </entry>
     </register>
 </profile>

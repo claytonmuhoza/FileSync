@@ -1,9 +1,15 @@
 package sync.fs;
 
 import java.time.Instant;
+import java.util.List;
 
 public interface Entry {
-    String getRelativePath();
+    RelativePath getRelativePath();           // relatif à la racine
     boolean isDirectory();
-    Instant getLastModified(); //date de dernière modification
+    Instant getLastModified();
+
+    List<Entry> getChildren();          // Vide si fichier
+    void accept(EntryVisitor visitor);  // Patron Visiteur
 }
+
+

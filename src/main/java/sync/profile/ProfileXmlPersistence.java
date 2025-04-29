@@ -1,9 +1,11 @@
 package sync.profile;
 
 import sync.fs.Entry;
-import sync.fs.EntryStd;
 import sync.fs.Path;
+import sync.fs.RelativePath;
 import sync.fs.local.LocalPath;
+import sync.fs.local.LocalRelativePath;
+import sync.registry.Register;
 import sync.registry.RegisterBuilderStd;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -19,6 +21,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.Instant;
+import java.util.List;
 
 public class ProfileXmlPersistence implements ProfilePersistence {
 
@@ -39,7 +42,7 @@ public class ProfileXmlPersistence implements ProfilePersistence {
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document doc = builder.newDocument();
 
-            // Création de l'élément racine <profile>
+            // Racine <profile>
             Element profileElement = doc.createElement("profile");
             doc.appendChild(profileElement);
 
@@ -64,7 +67,7 @@ public class ProfileXmlPersistence implements ProfilePersistence {
                 Element entryElement = doc.createElement("entry");
 
                 Element pathElement = doc.createElement("path");
-                pathElement.setTextContent(entry.getRelativePath());
+                pathElement.setTextContent(entry.getRelativePath().getPath()); // ⬅️ ICI mise à jour
 
                 Element lastModifiedElement = doc.createElement("lastModified");
                 lastModifiedElement.setTextContent(entry.getLastModified().toString());
@@ -80,7 +83,7 @@ public class ProfileXmlPersistence implements ProfilePersistence {
             }
             profileElement.appendChild(registerElement);
 
-            // Sauvegarde du document
+            // Sauvegarde dans fichier
             Transformer transformer = TransformerFactory.newInstance().newTransformer();
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             DOMSource source = new DOMSource(doc);
@@ -110,10 +113,10 @@ public class ProfileXmlPersistence implements ProfilePersistence {
             String pathA = doc.getElementsByTagName("pathA").item(0).getTextContent();
             String pathB = doc.getElementsByTagName("pathB").item(0).getTextContent();
 
-            Path pathObjA = new LocalPath(pathA);
-            Path pathObjB = new LocalPath(pathB);
+            Path pathObjA = new LocalPath(pathA, new sync.fs.local.LocalEntryFactory());
+            Path pathObjB = new LocalPath(pathB, new sync.fs.local.LocalEntryFactory());
 
-            // Construction du registre avec un RegisterBuilderStd
+            // Construction du registre
             RegisterBuilderStd registerBuilder = new RegisterBuilderStd();
             NodeList entries = doc.getElementsByTagName("entry");
 
@@ -121,21 +124,30 @@ public class ProfileXmlPersistence implements ProfilePersistence {
                 Node node = entries.item(i);
                 if (node.getNodeType() == Node.ELEMENT_NODE) {
                     Element entryElement = (Element) node;
-                    String relativePath = entryElement.getElementsByTagName("path").item(0).getTextContent();
+                    String relativePathStr = entryElement.getElementsByTagName("path").item(0).getTextContent();
                     Instant lastModified = Instant.parse(entryElement.getElementsByTagName("lastModified").item(0).getTextContent());
                     boolean isDirectory = Boolean.parseBoolean(entryElement.getElementsByTagName("directory").item(0).getTextContent());
 
-                    registerBuilder.addEntry(new EntryStd(relativePath, lastModified, isDirectory));
+                    RelativePath relativePath = new LocalRelativePath(relativePathStr);
+
+                    // Choix correct de FileEntry ou DirectoryEntry
+                    Entry entry;
+                    if (isDirectory) {
+                        entry = new sync.fs.DirectoryEntry(relativePath, lastModified, List.of());
+                    } else {
+                        entry = new sync.fs.FileEntry(relativePath, lastModified);
+                    }
+                    registerBuilder.addEntry(entry);
                 }
             }
 
+            Register register = registerBuilder.build();
 
-            // Construction du profil final avec ProfileBuilder
             return new ProfileBuilderStd()
                     .setName(profileName)
                     .setPathA(pathObjA)
                     .setPathB(pathObjB)
-                    .setRegister(registerBuilder.build())
+                    .setRegister(register)
                     .build();
 
         } catch (Exception e) {

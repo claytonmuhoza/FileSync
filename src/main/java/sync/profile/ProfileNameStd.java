@@ -14,8 +14,8 @@ public class ProfileNameStd implements ProfileName {
         this.name = name;
     }
 
-    public String getName() {
-        return name;
+    public ProfileName getName() {
+        return this;
     }
 
     @Override
