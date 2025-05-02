@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<profile>
+    <name>ahocora</name>
+    <paths>
+        <pathA>/home/clayton/Aho-corasick</pathA>
+        <pathB>/home/clayton/new-aho</pathB>
+    </paths>
+    <register/>
+</profile>

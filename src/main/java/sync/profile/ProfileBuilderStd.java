@@ -1,12 +1,12 @@
 package sync.profile;
 
-import sync.fs.Path;
+import sync.fs.SyncPath;
 import sync.registry.Register;
 
 public class ProfileBuilderStd implements ProfileBuilder {
     private ProfileName name;
-    private Path pathA;
-    private Path pathB;
+    private SyncPath syncPathA;
+    private SyncPath syncPathB;
     private Register register;
 
     public ProfileBuilder setName(ProfileName name) {
@@ -14,13 +14,13 @@ public class ProfileBuilderStd implements ProfileBuilder {
         return this;
     }
 
-    public ProfileBuilder setPathA(Path pathA) {
-        this.pathA = pathA;
+    public ProfileBuilder setPathA(SyncPath syncPathA) {
+        this.syncPathA = syncPathA;
         return this;
     }
 
-    public ProfileBuilder setPathB(Path pathB) {
-        this.pathB = pathB;
+    public ProfileBuilder setPathB(SyncPath syncPathB) {
+        this.syncPathB = syncPathB;
         return this;
     }
 
@@ -30,9 +30,9 @@ public class ProfileBuilderStd implements ProfileBuilder {
     }
 
     public Profile build() {
-        if (name == null || pathA == null || pathB == null || register == null) {
+        if (name == null || syncPathA == null || syncPathB == null || register == null) {
             throw new IllegalStateException("Tous les champs du profil doivent être renseignés !");
         }
-        return new ProfileStd(name, pathA, pathB, register);
+        return new ProfileStd(name, syncPathA, syncPathB, register);
     }
 }

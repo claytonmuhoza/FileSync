@@ -10,6 +10,7 @@ public interface Entry {
 
     List<Entry> getChildren();          // Vide si fichier
     void accept(EntryVisitor visitor);  // Patron Visiteur
+    String toString();
 }
 
 

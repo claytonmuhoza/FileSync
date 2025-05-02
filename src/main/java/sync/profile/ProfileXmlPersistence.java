@@ -1,10 +1,9 @@
 package sync.profile;
 
-import sync.fs.Entry;
-import sync.fs.Path;
-import sync.fs.RelativePath;
-import sync.fs.local.LocalPath;
+import sync.fs.*;
 import sync.fs.local.LocalRelativePath;
+import sync.fs.local.LocalSyncPath;
+import sync.fs.local.LocalSyncPathFactory;
 import sync.registry.Register;
 import sync.registry.RegisterBuilderStd;
 
@@ -67,7 +66,7 @@ public class ProfileXmlPersistence implements ProfilePersistence {
                 Element entryElement = doc.createElement("entry");
 
                 Element pathElement = doc.createElement("path");
-                pathElement.setTextContent(entry.getRelativePath().getPath()); // ⬅️ ICI mise à jour
+                pathElement.setTextContent(entry.getRelativePath().getPath());
 
                 Element lastModifiedElement = doc.createElement("lastModified");
                 lastModifiedElement.setTextContent(entry.getLastModified().toString());
@@ -90,6 +89,7 @@ public class ProfileXmlPersistence implements ProfilePersistence {
             StreamResult result = new StreamResult(new File(BASE_DIRECTORY + profile.getName() + ".sync"));
             transformer.transform(source, result);
 
+
         } catch (Exception e) {
             throw new RuntimeException("Erreur lors de la sauvegarde du profil : " + e.getMessage(), e);
         }
@@ -106,15 +106,15 @@ public class ProfileXmlPersistence implements ProfilePersistence {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document doc = builder.parse(file);
-
             doc.getDocumentElement().normalize();
 
-            // Lecture des chemins
-            String pathA = doc.getElementsByTagName("pathA").item(0).getTextContent();
-            String pathB = doc.getElementsByTagName("pathB").item(0).getTextContent();
-
-            Path pathObjA = new LocalPath(pathA, new sync.fs.local.LocalEntryFactory());
-            Path pathObjB = new LocalPath(pathB, new sync.fs.local.LocalEntryFactory());
+            // Lecture des chemins (chaînes)
+            String pathAString = doc.getElementsByTagName("pathA").item(0).getTextContent();
+            String pathBString = doc.getElementsByTagName("pathB").item(0).getTextContent();
+            SyncPathFactory pathFactory = new LocalSyncPathFactory();
+            // Création directe des SyncPath
+            SyncPath pathA = pathFactory.create(pathAString);
+            SyncPath pathB = pathFactory.create(pathBString);
 
             // Construction du registre
             RegisterBuilderStd registerBuilder = new RegisterBuilderStd();
@@ -130,13 +130,10 @@ public class ProfileXmlPersistence implements ProfilePersistence {
 
                     RelativePath relativePath = new LocalRelativePath(relativePathStr);
 
-                    // Choix correct de FileEntry ou DirectoryEntry
-                    Entry entry;
-                    if (isDirectory) {
-                        entry = new sync.fs.DirectoryEntry(relativePath, lastModified, List.of());
-                    } else {
-                        entry = new sync.fs.FileEntry(relativePath, lastModified);
-                    }
+                    Entry entry = isDirectory
+                            ? new DirectoryEntry(relativePath, lastModified, List.of())
+                            : new FileEntry(relativePath, lastModified);
+
                     registerBuilder.addEntry(entry);
                 }
             }
@@ -145,8 +142,8 @@ public class ProfileXmlPersistence implements ProfilePersistence {
 
             return new ProfileBuilderStd()
                     .setName(profileName)
-                    .setPathA(pathObjA)
-                    .setPathB(pathObjB)
+                    .setPathA(pathA)
+                    .setPathB(pathB)
                     .setRegister(register)
                     .build();
 
@@ -154,4 +151,5 @@ public class ProfileXmlPersistence implements ProfilePersistence {
             throw new RuntimeException("Erreur lors du chargement du profil : " + e.getMessage(), e);
         }
     }
+
 }
