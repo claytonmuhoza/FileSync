@@ -2,6 +2,9 @@ package sync.fs;
 
 import java.util.List;
 
+/**
+ * il permet de lire les chemins des dossiers à synchroniser
+ */
 public interface SyncPathExplorer {
     /**
      * Liste récursivement toutes les entrées (fichiers et dossiers) sous ce chemin.

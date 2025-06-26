@@ -28,10 +28,6 @@ public class FileEntry implements Entry {
         return lastModified;
     }
 
-    @Override
-    public List<Entry> getChildren() {
-        return Collections.emptyList();
-    }
 
     @Override
     public void accept(EntryVisitor visitor) {

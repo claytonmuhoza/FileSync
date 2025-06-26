@@ -24,7 +24,7 @@ public class LocalSyncPathExplorer implements SyncPathExplorer {
     }
 
     @Override
-    public Entry getEntry(RelativePath relativePath) {
+    public Entry getEntry(sync.fs.RelativePath relativePath) {
         java.nio.file.Path path = base.resolve(relativePath.getPath());
         if (!Files.exists(path)) {
             return null;
@@ -49,7 +49,7 @@ public class LocalSyncPathExplorer implements SyncPathExplorer {
         try {
             BasicFileAttributes attrs = Files.readAttributes(path, BasicFileAttributes.class);
             String relative = base.relativize(path).toString().replace("\\", "/");
-            RelativePath relativePath = new LocalRelativePath(relative);
+            sync.fs.RelativePath relativePath = new RelativePathStd(relative);
             Instant lastModified = attrs.lastModifiedTime().toInstant();
 
             if (attrs.isDirectory()) {

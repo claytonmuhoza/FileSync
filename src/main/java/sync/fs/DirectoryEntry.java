@@ -29,7 +29,11 @@ public class DirectoryEntry implements Entry {
         return lastModified;
     }
 
-    @Override
+    /**
+     * Retourne les enfants du dossier.
+     *
+     * @return une liste des enfants
+     */
     public List<Entry> getChildren() {
         return children;
     }

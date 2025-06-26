@@ -5,46 +5,5 @@
         <pathA>/home/clayton/sync/abana</pathA>
         <pathB>/home/clayton/sync/abantu</pathB>
     </paths>
-    <register>
-        <entry>
-            <path>dedj.txt</path>
-            <lastModified>2025-04-19T12:19:34.984Z</lastModified>
-            <directory>false</directory>
-        </entry>
-        <entry>
-            <path>jifjrf/doode</path>
-            <lastModified>2025-04-19T12:16:12.241909Z</lastModified>
-            <directory>false</directory>
-        </entry>
-        <entry>
-            <path>doejojdo</path>
-            <lastModified>2025-04-30T21:48:09.278167448Z</lastModified>
-            <directory>true</directory>
-        </entry>
-        <entry>
-            <path>jieidjedji.txt</path>
-            <lastModified>2025-04-19T13:36:09.273Z</lastModified>
-            <directory>false</directory>
-        </entry>
-        <entry>
-            <path>co</path>
-            <lastModified>2025-04-19T10:48:32.322Z</lastModified>
-            <directory>false</directory>
-        </entry>
-        <entry>
-            <path>test2.txt</path>
-            <lastModified>2025-04-29T22:24:18.867058Z</lastModified>
-            <directory>false</directory>
-        </entry>
-        <entry>
-            <path>doejojdo/jjdeod.txt</path>
-            <lastModified>2025-04-19T13:37:06.025930Z</lastModified>
-            <directory>false</directory>
-        </entry>
-        <entry>
-            <path>jifjrf</path>
-            <lastModified>2025-04-30T21:48:09.280167450Z</lastModified>
-            <directory>true</directory>
-        </entry>
-    </register>
+    <register/>
 </profile>

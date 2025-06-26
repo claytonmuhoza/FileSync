@@ -2,21 +2,23 @@ package sync.sync;
 
 import sync.fs.Entry;
 import sync.fs.SyncPath;
+import sync.logging.ConsoleLogger;
+import sync.logging.SyncLogger;
 import sync.profile.Profile;
-import sync.profile.ProfilePersistence;
+import sync.profile.ProfileSaver;
 import sync.registry.Register;
 
 public class SyncServiceStd implements SyncService {
 
-    private final ProfilePersistence profilePersistence;
-
-    public SyncServiceStd(ProfilePersistence profilePersistence) {
-        this.profilePersistence = profilePersistence;
+    private final ProfileSaver profileSaver;
+    public SyncServiceStd(ProfileSaver profileSaver) {
+        this.profileSaver = profileSaver;
     }
 
     @Override
     public void sync(Profile profile) {
-        System.out.println("=== Synchronisation du profil : " + profile.getName() + " ===");
+        SyncLogger syncLogger = ConsoleLogger.getInstance();
+        syncLogger.message("=== Synchronisation du profil : " + profile.getName() + " ===");
 
         SyncPath pathA = profile.getPathA();
         SyncPath pathB = profile.getPathB();
@@ -26,9 +28,9 @@ public class SyncServiceStd implements SyncService {
             entry.accept(new SyncVisitor(pathA, pathB, register));
         }
 
-        profilePersistence.save(profile);
+        profileSaver.save(profile);
 
-        System.out.println("✅ Synchronisation terminée et sauvegardée.");
+        syncLogger.success("Synchronisation terminée et sauvegardée.");
     }
 }
 

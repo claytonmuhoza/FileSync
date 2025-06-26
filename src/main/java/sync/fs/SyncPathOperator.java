@@ -1,5 +1,8 @@
 package sync.fs;
 
+/**
+ * il permet d'appliquer les opérations d'écriture sur les fichiers contenu dans les chemins des dossiers à synchroniser
+ */
 public interface SyncPathOperator {
     /**
      * Copie une entrée de ce chemin vers un autre SyncPath.

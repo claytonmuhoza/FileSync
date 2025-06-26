@@ -23,7 +23,6 @@
                 <version>3.11.0</version>
             </plugin>
 
-            <!-- Génération des 3 JAR exécutables -->
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>3.5.0</version>
@@ -35,6 +34,7 @@
                         <goals><goal>single</goal></goals>
                         <configuration>
                             <finalName>new-profile</finalName>
+                            <appendAssemblyId>false</appendAssemblyId> <!-- Empêche le suffixe -->
                             <archive>
                                 <manifest>
                                     <mainClass>sync.cli.NewProfileApp</mainClass>
@@ -53,6 +53,7 @@
                         <goals><goal>single</goal></goals>
                         <configuration>
                             <finalName>sync</finalName>
+                            <appendAssemblyId>false</appendAssemblyId>
                             <archive>
                                 <manifest>
                                     <mainClass>sync.cli.SyncApp</mainClass>
@@ -71,6 +72,7 @@
                         <goals><goal>single</goal></goals>
                         <configuration>
                             <finalName>syncstat</finalName>
+                            <appendAssemblyId>false</appendAssemblyId>
                             <archive>
                                 <manifest>
                                     <mainClass>sync.cli.SyncStatApp</mainClass>
@@ -83,6 +85,7 @@
                     </execution>
                 </executions>
             </plugin>
+
         </plugins>
     </build>
 </project>
